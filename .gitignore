@@ -1,0 +1,4 @@
+/workspace/
+/image/*.tar
+/build/output/
+.DS_Store
