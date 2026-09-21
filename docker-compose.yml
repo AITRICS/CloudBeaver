@@ -7,7 +7,3 @@ services:
       - "8978:8978"
     volumes:
       - ./workspace:/opt/cloudbeaver/workspace
-    # Linux에서 컨테이너가 호스트에 바인딩된 DB(예: MySQL 3306)로 붙을 때
-    # localhost 대신 host.docker.internal을 쓰기 위해 필요함
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
