@@ -1,8 +1,5 @@
 /image/*.tar
 /build/output/
 .DS_Store
-workspace/**/*.bak
-workspace/**/*.trace.db
-workspace/**/*.lock
-workspace/**/.locks/
-
+/workspace/**
+!/workspace/.gitkeep

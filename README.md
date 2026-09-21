@@ -25,7 +25,7 @@
 | `build/` | CloudBeaver 드라이버 프로필 패치 |
 | `scripts/` | 이미지 빌드와 tar export |
 | `image/` | 미리 말아 둔 이미지 tar. GitHub 용량 제한으로 레포에는 올리지 않으며, 빌드가 안 되면 로컬 tar를 사용한다 |
-| `workspace/` | 실행 중 저장되는 설정 |
+| `workspace/` | 실행 중 저장되는 설정. 레포에는 빈 폴더만 두고, 첫 기동 때 CloudBeaver가 채운다 |
 
 ## 이미지 빌드
 
