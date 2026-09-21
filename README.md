@@ -50,3 +50,12 @@ docker compose up -d
 ```
 
 브라우저에서 `http://<서버IP>:8978` 로 접속한다. 설정은 `./workspace`에 남는다.
+
+같은 서버의 MySQL 컨테이너(`3306` 바인딩)에 붙을 때 Host에 `localhost`를 넣으면 안 된다. CloudBeaver 컨테이너 자신이다.
+
+- Host: `host.docker.internal`
+- Port: `3306`
+
+`docker compose up -d` 로 CloudBeaver를 한 번 재기동해야 `extra_hosts`가 적용된다.
+
+MySQL 포트가 `127.0.0.1:3306`에만 묶여 있으면 이것도 실패한다. 그때는 MySQL과 같은 Docker 네트워크에 CloudBeaver를 붙이고, Host에 MySQL 컨테이너 이름을 넣는다.
