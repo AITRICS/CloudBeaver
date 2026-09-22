@@ -2,10 +2,14 @@
 set -eu
 
 project_dir=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
-image_name=${IMAGE_NAME:-cloudbeaver:26.2.0-r1}
-architecture=$(docker image inspect "$image_name" --format '{{.Architecture}}')
-mkdir -p "$project_dir/image"
-output="$project_dir/image/cloudbeaver_26.2.0-r1_${architecture}.tar"
+# shellcheck disable=SC1091
+. "$project_dir/scripts/image-target.sh"
 
-docker image save --output "$output" "$image_name"
+target=${1:-}
+resolve_image_target "$target"
+
+mkdir -p "$project_dir/image"
+output="$project_dir/image/$tar_name"
+
+docker image save --output "$output" "$image_tag"
 ls -lh "$output"

@@ -29,18 +29,41 @@
 
 ## 이미지 빌드
 
-로컬에 `dbeaver/cloudbeaver:26.2.0`과 `python3`가 있어야 한다. JDBC JAR는 `drivers/`에 들어 있으므로 빌드 때 인터넷이 필요 없다.
+로컬에 `dbeaver/cloudbeaver:26.2.0`과 `python3`가 있어야 한다. JDBC JAR는 `drivers/`에 들어 있으므로 드라이버 다운로드는 필요 없다. 대상 아키텍처의 베이스 이미지가 없으면 Docker Hub pull이 필요하다.
 
 ```sh
-./scripts/build-image.sh
+./scripts/build-image.sh linux       # x86_64 Linux → linux/amd64
+./scripts/build-image.sh intel-mac   # Intel Mac → linux/amd64 (linux tar와 동일)
+./scripts/build-image.sh m-chip      # Apple Silicon Mac → linux/arm64
 ```
 
-`cloudbeaver:26.2.0-r1` 이미지가 만들어진다. tar를 다시 뽑을 때는 `./scripts/export-image.sh` 한다.
+대상 서버에서 `uname -m`이 `x86_64`면 `linux`, `arm64`/`aarch64`면 `m-chip`이다. Intel Mac도 `x86_64`라 `linux`와 같은 amd64 이미지가 나온다.
 
-빌드가 안 되면 `image/`의 tar를 로드한다.
+만들어지는 tar:
+
+| 대상 | tar |
+|---|---|
+| Linux / Intel Mac | `image/cloudbeaver_26.2.0-r1_linux_amd64.tar` |
+| M칩 Mac | `image/cloudbeaver_26.2.0-r1_mac_arm64.tar` |
+
+빌드가 안 되면 tar를 로드한다.
 
 ```sh
-docker load -i image/cloudbeaver_26.2.0-r1_<arch>.tar
+# x86_64 Linux, Intel Mac
+docker load -i image/cloudbeaver_26.2.0-r1_linux_amd64.tar
+
+# Apple Silicon Mac
+docker load -i image/cloudbeaver_26.2.0-r1_mac_arm64.tar
+```
+
+로드 후 태그가 `cloudbeaver:26.2.0-r1-amd64` 또는 `cloudbeaver:26.2.0-r1-arm64`로 들어간다. Compose가 쓰는 이름은 `cloudbeaver:26.2.0-r1`이므로 한 번 맞춰 준다.
+
+```sh
+# Linux / Intel Mac
+docker tag cloudbeaver:26.2.0-r1-amd64 cloudbeaver:26.2.0-r1
+
+# M칩 Mac
+docker tag cloudbeaver:26.2.0-r1-arm64 cloudbeaver:26.2.0-r1
 ```
 
 ## 실행
